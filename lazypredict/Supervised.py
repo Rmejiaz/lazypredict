@@ -219,7 +219,7 @@ class LazyClassifier:
         self.random_state = random_state
         self.classifiers = classifiers
 
-    def fit(self, X_train, X_test, y_train, y_test):
+    def fit(self, X_train, X_test, y_train, y_test, n_jobs = None):
         """Fit Classification algorithms to X_train and y_train, predict and score on X_test, y_test.
         Parameters
         ----------
@@ -300,7 +300,7 @@ class LazyClassifier:
                         steps=[("preprocessor", preprocessor), ("classifier", model())]
                     )
 
-                pipe.fit(X_train, y_train)
+                pipe.fit(X_train, y_train, n_jobs = n_jobs)
                 self.models[name] = pipe
                 y_pred = pipe.predict(X_test)
                 accuracy = accuracy_score(y_test, y_pred, normalize=True)
